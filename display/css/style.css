@@ -1,0 +1,45 @@
+body {
+    font-family: Arial;
+}
+
+h1 {
+    text-align: center;
+    margin: 40px;
+    margin-top: 40px;
+    margin-bottom: 20px;;
+}
+
+div {
+    background-color: #111;
+    height: 150px;
+    margin-top: 10px;
+    margin-left: 40px;
+    margin-right: 40px;;
+    border-radius: 4px;
+    padding: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+h2 {
+    color: white;
+}
+
+p {
+    color: #b2b2b2;
+}
+
+span {
+    color: #febe01;
+}
+
+input {
+    display: inline-block;
+    background-color: #febe01;
+    color: #332200;
+    border-radius: 4px;
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
+    padding: 10px;
+}
