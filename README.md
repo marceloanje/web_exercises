@@ -25,3 +25,9 @@ Aqui estão alguns exercícios feitos durante o estudo de HTML+CSS:
 
 8. **Refactoring**  
    Refatoração da pagina Position, feito a partir do curso da Origamid.
+
+9. **Guia Perguntas**  
+   Aplicação back-end e front-end com inspiração no Yahoo Respostas.
+
+10. **Guiapress**  
+    Aplicação back-end e front-end no modelo de um blog.
