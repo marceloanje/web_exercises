@@ -45,6 +45,18 @@ app.get("/games", (req, res) => {
     res.json(DB.games);
 });
 
+app.get("/games/:id", (req, res) => {
+    if (isNaN(req.params.id)) return res.sendStatus(400);
+
+    let id = parseInt(req.params.id);
+    let game = DB.games.find((game) => game.id == id);
+
+    if (game == undefined) return res.sendStatus(404);
+
+    res.statusCode = 200;
+    res.json(game);
+});
+
 app.listen(2000, () => {
     console.log("API TEST...");
 });
