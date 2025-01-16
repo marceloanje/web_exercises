@@ -70,6 +70,21 @@ app.post("/game", (req, res) => {
     res.sendStatus(200);
 });
 
+app.delete("/game/:id", (req, res) => {
+    if (isNaN(req.params.id)) return res.sendStatus(400);
+
+    let id = parseInt(req.params.id);
+    let index = DB.games.findIndex((game) => game.id == id);
+
+    console.log(index);
+
+    if (index == -1) return res.sendStatus(404);
+
+    DB.games.splice(index, 1);
+
+    res.sendStatus(200);
+});
+
 app.listen(2000, () => {
     console.log("API TEST...");
 });
