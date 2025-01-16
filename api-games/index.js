@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 let DB = {
@@ -55,6 +55,19 @@ app.get("/games/:id", (req, res) => {
 
     res.statusCode = 200;
     res.json(game);
+});
+
+app.post("/game", (req, res) => {
+    let { title, price, year } = req.body;
+
+    DB.games.push({
+        id: 122,
+        title,
+        price,
+        year,
+    });
+
+    res.sendStatus(200);
 });
 
 app.listen(2000, () => {
