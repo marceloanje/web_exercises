@@ -85,6 +85,23 @@ app.delete("/game/:id", (req, res) => {
     res.sendStatus(200);
 });
 
+app.put("/game/:id", (req, res) => {
+    if (isNaN(req.params.id)) return res.sendStatus(400);
+
+    let id = parseInt(req.params.id);
+    let game = DB.games.find((game) => game.id == id);
+
+    if (game == undefined) return res.sendStatus(404);
+
+    let { title, price, year } = req.body;
+
+    if (title != undefined) game.title = title;
+    if (price != undefined) game.price = price;
+    if (year != undefined) game.year = year;
+
+    res.sendStatus(200);
+});
+
 app.listen(2000, () => {
     console.log("API TEST...");
 });
