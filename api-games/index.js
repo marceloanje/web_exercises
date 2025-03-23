@@ -40,6 +40,20 @@ let DB = {
             price: 40,
         },
     ],
+    users: [
+        {
+            id: 1,
+            name: "Marcelo Andrade",
+            email: "marcelo.andra@email.com",
+            password: "123",
+        },
+        {
+            id: 1,
+            name: "Kemilly Cristyne",
+            email: "kemilly.cristyne@email.com",
+            password: "321",
+        }
+    ]
 };
 
 app.get("/games", (req, res) => {
@@ -102,6 +116,32 @@ app.put("/game/:id", (req, res) => {
     if (year != undefined) game.year = year;
 
     res.sendStatus(200);
+});
+
+app.post("/auth", (req, res) => {
+    let {email, password} = req.body;
+
+    if (email == undefined) {
+        res.status(400);
+        res.json({err: "The e-mail is invalid!"});
+        return;
+    }
+
+    let user = DB.users.find(user => user.email == email);
+
+    if (user == undefined) {
+        res.status(404);
+        res.json({err: "User not found!"});
+        return;
+    }
+
+    if (user.password != password) {
+        res.status(401);
+        res.json({err: "Invalid credentials!"});
+    }
+
+    res.status(200);
+    res.json({token: "token"});
 });
 
 app.listen(2000, () => {
