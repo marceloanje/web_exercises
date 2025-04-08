@@ -10,6 +10,29 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+function auth(req, res, next) {
+    const authToken = req.headers["authorization"];
+
+    if (authToken == undefined) {
+        res.status(401);
+        res.json({err: "Invalid token!"});
+        return;
+    }
+
+    const token = authToken.split(" ")[1];
+    jwt.verify(token, JWTSecret, (err, data) => {
+        if (err) {
+            res.status(401);
+            res.json({err: "Invalid token!"});
+            return;
+        }
+
+        req.token = token;
+        req.loggedUser = {id: data.id, email: data.email};
+        next();
+    })
+}
+
 let DB = {
     games: [
         {
@@ -59,7 +82,7 @@ let DB = {
     ]
 };
 
-app.get("/games", (req, res) => {
+app.get("/games", auth, (req, res) => {
     res.statusCode = 200;
     res.json(DB.games);
 });
@@ -147,7 +170,7 @@ app.post("/auth", (req, res) => {
     jwt.sign({id: user.id, email: user.email}, JWTSecret, {expiresIn: "48h"}, (err, token) => {
         if (err) {
             res.status(400);
-            res.json({err: "Internal failure"});
+            res.json({err: "Internal failure!"});
             return;
         }
 
