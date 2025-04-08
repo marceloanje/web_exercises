@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
+
+const JWTSecret = "test"
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -140,8 +143,17 @@ app.post("/auth", (req, res) => {
         res.json({err: "Invalid credentials!"});
     }
 
-    res.status(200);
-    res.json({token: "token"});
+    // payload
+    jwt.sign({id: user.id, email: user.email}, JWTSecret, {expiresIn: "48h"}, (err, token) => {
+        if (err) {
+            res.status(400);
+            res.json({err: "Internal failure"});
+            return;
+        }
+
+        res.status(200);
+        res.json({token: token});
+    });
 });
 
 app.listen(2000, () => {
