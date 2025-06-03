@@ -12,14 +12,14 @@
     <input type="text" name="title" id="title" placeholder="Título"><br>
     <input type="number" name="year" id="year" placeholder="Ano"><br>
     <input type="number" name="price" id="price" placeholder="Preço"><br>
-    <button type="button" onclick="criarGame()">Criar</button>
+    <button type="button" onclick="createGame()">Criar</button>
     <hr>
     <h4>Editar game</h4>
     <input type="text" name="idEdit" id="idEdit" placeholder="id" readonly><br>
     <input type="text" name="titleEdit" id="titleEdit" placeholder="Título"><br>
     <input type="number" name="yearEdit" id="yearEdit" placeholder="Ano"><br>
     <input type="number" name="priceEdit" id="priceEdit" placeholder="Preço"><br>
-    <button type="button" onclick="editarGame()">Editar</button>
+    <button type="button" onclick="editGame()">Editar</button>
 </head>
 <body>
     
@@ -27,7 +27,13 @@
 <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
 <script>
 
-    function criarGame() {
+    let axiosConfig = {
+        headers: {
+            Authorization: "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtYXJjZWxvLmFuZHJhQGVtYWlsLmNvbSIsImlhdCI6MTc0NDcyNDY0MiwiZXhwIjoxNzQ0ODk3NDQyfQ.pmUPiwbj967cGYkAQz1lcryl5-iUuwUaBtsYHBTg-14"
+        }
+    }
+
+    function createGame() {
         let titleInput = document.getElementById('title');
         let yearInput = document.getElementById('year');
         let priceInput = document.getElementById('price');
@@ -45,7 +51,7 @@
         }) 
     }
 
-    function deletarGame(item) {
+    function deleteGame(item) {
         let id = item.getAttribute('data-id');
 
         axios.delete(`http://localhost:2000/game/${id}`).then(response => {
@@ -55,7 +61,7 @@
         })
     }
 
-    function editarGame() {
+    function editGame() {
         let idInput = document.getElementById('idEdit');
         let titleInput = document.getElementById('titleEdit');
         let yearInput = document.getElementById('yearEdit');
@@ -74,7 +80,7 @@
         }) 
     }
 
-    function carregarFormulario(item) {
+    function loadingForm(item) {
         let id = document.getElementById('idEdit');
         let title = document.getElementById('titleEdit');
         let year = document.getElementById('yearEdit');
@@ -86,7 +92,7 @@
         price.value = item.getAttribute('data-price');
     }
     
-    axios.get('http://localhost:2000/games').then(response => {
+    axios.get('http://localhost:2000/games', axiosConfig).then(response => {
         let games = response.data;
         let list = document.getElementById('games');
 
@@ -102,11 +108,11 @@
 
             let deleteBtn = document.createElement('button');
             deleteBtn.innerHTML = 'Deletar';
-            deleteBtn.addEventListener('click', function(){deletarGame(item)});
+            deleteBtn.addEventListener('click', function(){deleteGame(item)});
 
             let editBtn = document.createElement('button');
             editBtn.innerHTML = 'Editar';
-            editBtn.addEventListener('click', function(){carregarFormulario(item)});
+            editBtn.addEventListener('click', function(){loadingForm(item)});
 
             item.appendChild(deleteBtn);
             item.appendChild(editBtn);
